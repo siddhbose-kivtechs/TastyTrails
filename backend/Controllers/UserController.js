@@ -3,6 +3,7 @@ import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv"
 import nodemailer from "nodemailer";
+import he from "he";
 dotenv.config()
 /**
  * @route {POST} /api/signup
@@ -146,11 +147,11 @@ async function Sendcontactmail(req, res) {
         <p>You have received a new message from the Feedback form:</p>
         <h3>Contact Details:</h3>
         <ul>
-          <li>Name: ${name}</li>
-          <li>Email: ${email}</li>
+          <li>Name: ${he.encode(name)}</li>
+          <li>Email: ${he.encode(email)}</li>
         </ul>
         <h3>Message:</h3>
-        <p>${message}</p>
+        <p>${he.encode(message)}</p>
 
         <h3>Rating:</h3>
         <p style="font-size: 24px; color: #FFD700;">${filledStars}${emptyStars}</p> <!-- Display the stars -->
