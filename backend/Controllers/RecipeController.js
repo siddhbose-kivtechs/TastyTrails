@@ -242,7 +242,7 @@ const updateRecipe = async (req, res)=>{
  */
 const deleteRecipe = async (req, res) => {
   try {
-    const recipe = await Recipe.findById(req.body.id);
+    const recipe = await Recipe.findOne({ _id: { $eq: req.body.id } });
 
     if (!recipe) {
       return res.status(404).json({ success: false, message: "Recipe not found" });
