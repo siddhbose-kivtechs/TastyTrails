@@ -308,7 +308,10 @@ const deleteRecipe = async (req, res) => {
    
 
     // If successful, delete the recipe from the database
-    await Recipe.deleteOne({ _id: req.body.id });
+    if (typeof req.body.id !== "string") {
+      return res.status(400).json({ success: false, message: "Invalid ID format" });
+    }
+    await Recipe.deleteOne({ _id: { $eq: req.body.id } });
 
     return res.status(200).json({ success: true, message: "Recipe Deleted Successfully" });
   } catch (error) {
