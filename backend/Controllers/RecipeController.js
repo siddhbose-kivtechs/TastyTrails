@@ -330,7 +330,7 @@ const addComment = async (req, res) => {
     const { recipeId, username, content } = req.body;
 
     // Ensure the recipe exists
-    const recipe = await Recipe.findById(recipeId);
+    const recipe = await Recipe.findById({ _id: { $eq: recipeId } });
     if (!recipe) {
       return res.status(404).json({ success: false, message: "Recipe not found" });
     }
