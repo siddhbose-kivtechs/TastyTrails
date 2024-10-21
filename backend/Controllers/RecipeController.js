@@ -218,6 +218,9 @@ const getOneUserRecipes = async (req, res)=>{
 const updateRecipe = async (req, res)=>{
   try{ 
     const {name, description, ingredients, steps,type, user, author, id} = req.body
+        if (typeof id !== "string") {
+          return res.status(400).json({ success: false, message: "Invalid ID format" });
+        }
         const data = {
           user,
           name,
@@ -227,7 +230,7 @@ const updateRecipe = async (req, res)=>{
           author,
           type
         }
-        const update = await Recipe.updateOne({_id: id}, {$set: data}, {new:true})
+        const update = await Recipe.updateOne({_id: { $eq: id }}, {$set: data}, {new:true})
         return res.status(200).json({success: true, message: "Recipe Updates Successfully"})
   }catch(error){
     console.log(error);
