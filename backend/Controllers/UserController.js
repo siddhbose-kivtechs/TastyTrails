@@ -14,8 +14,8 @@ const Signup = async (req, res) => {
     const encryptPassword = bcrypt.hashSync(req.body.password, 10);
     const newUser = new User({ ...req.body, password: encryptPassword });
 
-    const user = await User.findOne({ email: req.body.email });
-    const username = await User.findOne({ username: req.body.username });
+    const user = await User.findOne({ email: { $eq: req.body.email } });
+    const username = await User.findOne({ username: { $eq: req.body.username } });
 
     if (user)
       return res
