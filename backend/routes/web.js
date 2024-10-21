@@ -2,12 +2,19 @@ import { Router } from "express";
 import UserController from "../Controllers/UserController.js";
 import RecipeController from "../Controllers/RecipeController.js";
 import authenticateToken from "../middleware/auth.js";
+import rateLimit from 'express-rate-limit';
 
 const router = Router();
 
+// Rate limiter: maximum of 100 requests per 15 minutes
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+});
+
 
 // Get Requests
-router.get('/usernames', UserController.getAllUserName)
+router.get('/usernames', limiter, UserController.getAllUserName)
 router.get('/token', authenticateToken ,UserController.verifyUserByToken)
 router.get("/recipes", RecipeController.allRecipe)
 // added route to get previous comments
