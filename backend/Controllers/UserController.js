@@ -122,6 +122,12 @@ const verifyUserByToken =  async (req, res)=>{
 
 async function Sendcontactmail(req, res) {
   const { name, email, message, rating } = req.body; // Capture rating from the request
+  
+  // Validate rating
+  if (rating < 1 || rating > 5) {
+    return res.status(400).json({ success: false, message: "Invalid rating value. Rating must be between 1 and 5." });
+  }
+  
   console.log(req.body);
   try {
     const transporter = nodemailer.createTransport({
